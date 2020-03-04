@@ -289,7 +289,7 @@ class TadoClimate(ClimateDevice):
 
     def set_preset_mode(self, preset_mode):
         """Set new preset mode."""
-        if preset_mode is PRESET_AWAY:
+        if preset_mode == PRESET_AWAY:
             self._is_away = True
         else:
             self._is_away = False
