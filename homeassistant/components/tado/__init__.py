@@ -200,3 +200,23 @@ class TadoConnector:
             _LOGGER.error("Could not set zone overlay: %s", exc.read())
 
         self.update_sensor("zone", zone_id)
+
+    def set_preset_mode_away(
+        self,
+        is_away,
+    ):
+        """Set a preset mode like HOME or AWAY."""
+        _LOGGER.debug(
+            "Set preset mode to %s",
+            "AWAY" if is_away else "HOME",
+        )
+        if is_away:
+            try:
+                self.tado.setAway()
+            except urllib.error.HTTPError as exc:
+                _LOGGER.error("Could not set preset mode to AWAY: %s", exc.read())
+        else:
+            try:
+                self.tado.setHome()
+            except urllib.error.HTTPError as exc:
+                _LOGGER.error("Could not set preset mode to HOME: %s", exc.read())

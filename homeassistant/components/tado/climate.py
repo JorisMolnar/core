@@ -289,7 +289,11 @@ class TadoClimate(ClimateDevice):
 
     def set_preset_mode(self, preset_mode):
         """Set new preset mode."""
-        pass
+        if preset_mode is PRESET_AWAY:
+            self._is_away = True
+        else:
+            self._is_away = False
+        self._control_preset()
 
     @property
     def temperature_unit(self):
@@ -483,3 +487,12 @@ class TadoClimate(ClimateDevice):
             "COOL" if self._ac_device else None,
         )
         self._overlay_mode = self._current_operation
+
+    def _control_preset(self):
+        """Send new preset to Tado."""
+        if self._is_away:
+            _LOGGER.debug("Switching to preset AWAY")
+        else:
+            _LOGGER.debug("Switching to preset HOME")
+
+        self._tado.set_preset_mode_away(self._is_away)
